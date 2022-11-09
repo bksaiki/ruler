@@ -50,7 +50,7 @@ for rj in $(find . -name 'results.json' | sort); do
 
   # warn about errors and timeouts that will be filtered out
 
-  errors="$(jq '.tests | map(select(.status == "error"))' "$rj")"
+  errors="$(jq '.tests | map(select((.status == "error") or (.status == "crash")))' "$rj")"
   if [ "$errors" != "[]" ]; then
   	if $first_error; then
   	  first_error=false
@@ -87,6 +87,7 @@ for rj in $(find . -name 'results.json' | sort); do
       '.tests | map(
          select(.status != "error") |
          select(.status != "timeout") |
+         select(.status != "crash") |
          { "test" : .name
          , "input" : .input
          , "output" : .output

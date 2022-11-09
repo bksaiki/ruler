@@ -39,6 +39,13 @@ cp ruler-datafile.rkt $BUILD_DIR/src/datafile.rkt
 # copy fixed alt-table.rkt
 cp fixed-alt-table.rkt $BUILD_DIR/src/core/alt-table.rkt
 
+# copy hacked symmetric.rkt
+cp no-symmetric.rkt $BUILD_DIR/src/symmetry.rkt
+
+# disable proofs
+cp no-proof-history.rkt $BUILD_DIR/src/web/history.rkt
+cp no-proof-mainloop.rkt $BUILD_DIR/src/mainloop.rkt
+
 pushd $BUILD_DIR
 
 git fetch

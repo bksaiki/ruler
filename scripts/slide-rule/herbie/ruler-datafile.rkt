@@ -18,13 +18,13 @@
 
 ;; Creates a synthetic frontier from multiple frontiers
 ;; as described in the ARITH '21 paper.
-(define (combine-pareto frontiers #:convex? [convex? #f])
-  (define pts
-    (for/list ([frontier frontiers])
-      (for/list ([pt frontier])
-        (cons (first pt) (second pt)))))
-  (define pts* (generate-pareto-curve pts))
-  (map (λ (x) (list (car x) (cdr x))) pts*))
+; (define (combine-pareto frontiers #:convex? [convex? #f])
+;   (define pts
+;     (for/list ([frontier frontiers])
+;       (for/list ([pt frontier])
+;         (cons (first pt) (second pt)))))
+;   (define pts* (generate-pareto-curve pts))
+;   (map (λ (x) (list (car x) (cdr x))) pts*))
 
 (define (extract-frontier test)
   (match (table-row-cost-accuracy test)
@@ -85,7 +85,7 @@
   (define data
     (match info
       [(report-info date commit branch hostname seed flags points iterations note tests)
-       (define frontier (combine-pareto (map extract-frontier tests) #:convex? #t))
+       (define frontier (pareto-combine (map extract-frontier tests) #:convex? #t))
        (make-hash
         `((date . ,(date->seconds date))
           (commit . ,commit)

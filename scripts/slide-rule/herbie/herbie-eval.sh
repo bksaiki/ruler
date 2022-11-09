@@ -14,8 +14,8 @@ MYDIR="$(cd -P "$(dirname "$src")" && pwd)"
 
 # configuration
 HERBIE_DIR=herbie/
-HERBIE_COMMIT=2ac0716ca93715987f834f39a4d569358567faa5
-OUTPUT_DIR=output2/
+HERBIE_COMMIT=3b7366bf96fdd76fd5c9c84006deab1ada4fe259
+OUTPUT_DIR=output/no-symmetry-new
 BENCH_DIR=ruler-bench/
 SEEDS="seeds.txt"
 
