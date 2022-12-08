@@ -13,11 +13,14 @@ done
 MYDIR="$(cd -P "$(dirname "$src")" && pwd)"
 
 # configuration
-HERBIE_DIR=herbie/
+HERBIE_DIR=$MYDIR/herbie/
 HERBIE_COMMIT=3b7366bf96fdd76fd5c9c84006deab1ada4fe259
-OUTPUT_DIR=output/no-symmetry-new
-BENCH_DIR=ruler-bench/
-SEEDS="seeds.txt"
+SEEDS=$MYDIR/seeds2.txt
+BENCH_DIR=bench/
+OUTPUT_DIR=$MYDIR/output/test
+
+BENCH=$BENCH_DIR
+
 
 # set timeout
 if [ -z "$SEED_COUNT" ]; then
@@ -25,7 +28,7 @@ if [ -z "$SEED_COUNT" ]; then
 fi
 
 # Install Herbie
-BUILD_DIR=$HERBIE_DIR HERBIE_COMMIT=$HERBIE_COMMIT bash ./install.sh
+# BUILD_DIR=$HERBIE_DIR HERBIE_COMMIT=$HERBIE_COMMIT bash ./install.sh
 
 # Form benchmark suite
 mkdir -p $BENCH_DIR
@@ -51,19 +54,24 @@ fi
 mkdir -p $OUTPUT_DIR
 
 # Run with current rules
-echo "Running Pareto-Herbie with current ruleset"
+echo "Running Herbie with current ruleset"
 cp default-rules.rkt $HERBIE_DIR/src/syntax/rules.rkt
-HERBIE_DIR=$HERBIE_DIR bash run.sh $SEEDS $BENCH_DIR "$OUTPUT_DIR/main"
+HERBIE_DIR=$HERBIE_DIR bash run.sh $SEEDS $BENCH "$OUTPUT_DIR/main"
 
 # Run with SlideRule rules
-echo "Running Pareto-Herbie with SlideRule ruleset"
+echo "Running Herbie with SlideRule ruleset"
 cp slide-rule-rules.rkt $HERBIE_DIR/src/syntax/rules.rkt
-HERBIE_DIR=$HERBIE_DIR bash run.sh $SEEDS $BENCH_DIR "$OUTPUT_DIR/slide-rule"
+HERBIE_DIR=$HERBIE_DIR bash run.sh $SEEDS $BENCH "$OUTPUT_DIR/slide-rule"
 
 # Run with OOPSLA21 rules
-echo "Running Pareto-Herbie with OOPSLA 21 ruleset"
+echo "Running Herbie with OOPSLA 21 ruleset"
 cp oopsla21-rules.rkt $HERBIE_DIR/src/syntax/rules.rkt
-HERBIE_DIR=$HERBIE_DIR bash run.sh $SEEDS $BENCH_DIR "$OUTPUT_DIR/oopsla21"
+HERBIE_DIR=$HERBIE_DIR bash run.sh $SEEDS $BENCH "$OUTPUT_DIR/oopsla21"
+
+# Run without rules
+echo "Running Herbie without rules"
+cp empty-rules.rkt $HERBIE_DIR/src/syntax/rules.rkt
+HERBIE_DIR=$HERBIE_DIR bash run.sh $SEEDS $BENCH "$OUTPUT_DIR/no-rules"
 
 # Plot results
 
@@ -71,4 +79,5 @@ bash plot-individual.sh $SEEDS $OUTPUT_DIR
 bash seed-variance.sh "$OUTPUT_DIR/main" "main"
 bash seed-variance.sh "$OUTPUT_DIR/slide-rule" "slide-rule"
 bash seed-variance.sh "$OUTPUT_DIR/oopsla21" "oopsla21"
+bash seed-variance.sh "$OUTPUT_DIR/no-rules" "no-rules"
 bash plot-old.sh "$OUTPUT_DIR"

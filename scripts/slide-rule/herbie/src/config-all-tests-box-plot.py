@@ -26,13 +26,14 @@ if field == "time":
 ho = ('Herbie', pairs['main'])
 ro = ('SlideRule', pairs['slide-rule'])
 hr = ('Ruler', pairs['oopsla21'])
+nr = ('None', pairs['no-rules'])
 
 # hno = ('herbie-no-simpl', pairs['herbie-no-simpl'])
 # ho = ('herbie-only', pairs['herbie-only'])
 # ro = ('ruler-only', pairs['ruler-only'])
 # hr = ('herbie-ruler', pairs['herbie-ruler'])
 
-listify = [ho, ro, hr]
+listify = [ho, ro, hr, nr]
 labs = []
 vals = []
 for c, ds in listify:
@@ -45,20 +46,20 @@ ax.boxplot(vals)
 # manually set before deadline
 if str(field) == "output_parens":
     yname = "AST Size"
-    ax.set_ylim([0, 1500])
+    ax.set_ylim([0, 800])
 elif str(field) == "time":
     yname = "Time (s)"
-    ax.set_ylim([0, 1500])
+    ax.set_ylim([0, 800])
 elif str(field) == "avg_bits_err_improve":
     yname = "Average bits of error improved"
-    ax.set_ylim([0, 1500])
+    ax.set_ylim([0, 800])
 else:
     yname = str(field)
     ax.set_ylim(bottom=0)
 
 title = yname + " over 30 seeds"
 #ax.set_title(title, fontsize=8)
-ax.set_xlabel('Rules used for simplification', labelpad=10)
+ax.set_xlabel('Rules used', labelpad=10)
 ax.set_ylabel(yname)
 ax.set_xticklabels(labs)
 
