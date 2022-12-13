@@ -15,9 +15,9 @@ MYDIR="$(cd -P "$(dirname "$src")" && pwd)"
 # configuration
 HERBIE_DIR=$MYDIR/herbie/
 HERBIE_COMMIT=3b7366bf96fdd76fd5c9c84006deab1ada4fe259
-SEEDS=$MYDIR/seeds2.txt
+SEEDS=$MYDIR/seeds.txt
 BENCH_DIR=bench/
-OUTPUT_DIR=$MYDIR/output/test
+OUTPUT_DIR=$MYDIR/output/exponential-new-no-taylor
 
 BENCH=$BENCH_DIR
 
@@ -28,12 +28,14 @@ if [ -z "$SEED_COUNT" ]; then
 fi
 
 # Install Herbie
-# BUILD_DIR=$HERBIE_DIR HERBIE_COMMIT=$HERBIE_COMMIT bash ./install.sh
+BUILD_DIR=$HERBIE_DIR HERBIE_COMMIT=$HERBIE_COMMIT bash ./install.sh
 
 # Form benchmark suite
+rm -r $BENCH_DIR
 mkdir -p $BENCH_DIR
-cp -r "$HERBIE_DIR/bench/hamming" $BENCH_DIR
-cp -r "$HERBIE_DIR/bench/pbrt.fpcore" $BENCH_DIR
+cp -r "$HERBIE_DIR/bench/hamming" \
+      "$HERBIE_DIR/bench/mathematics" \
+      $BENCH_DIR
 
 # ASSUMING rules under rulesets/
 # Convert Ruler rules to Herbie format
